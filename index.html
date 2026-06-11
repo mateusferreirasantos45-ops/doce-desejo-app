@@ -934,21 +934,6 @@
 
   <script>
     const money = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDSHLzsk0MO7N2dlVC3ikjnUDP5MBEqVG4",
-      authDomain: "doce-desejo-4ed02.firebaseapp.com",
-      databaseURL: "https://doce-desejo-4ed02-default-rtdb.firebaseio.com",
-      projectId: "doce-desejo-4ed02",
-      storageBucket: "doce-desejo-4ed02.firebasestorage.app",
-      messagingSenderId: "1000561475598",
-      appId: "1:1000561475598:web:fb45c86494274fea35fc5f"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    const cloudRef = database.ref('doceDesejo/appPrincipal');
-
     const defaultFlavors = [
       {id:'ninho', name:'Ninho', stock:0},
       {id:'blue', name:'Blue', stock:0},
@@ -972,8 +957,23 @@
       sales: []
     };
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyDSHLzsk0MO7N2dlVC3ikjnUDP5MBEqVG4",
+      authDomain: "doce-desejo-4ed02.firebaseapp.com",
+      databaseURL: "https://doce-desejo-4ed02-default-rtdb.firebaseio.com",
+      projectId: "doce-desejo-4ed02",
+      storageBucket: "doce-desejo-4ed02.firebasestorage.app",
+      messagingSenderId: "1000561475598",
+      appId: "1:1000561475598:web:fb45c86494274fea35fc5f"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const cloudRef = database.ref('doceDesejo/appPrincipal');
+
     let state = JSON.parse(JSON.stringify(initialState));
     let cloudReady = false;
+    let isSaving = false;
 
     function normalizeState(saved){
       if(!saved) return JSON.parse(JSON.stringify(initialState));
@@ -1004,30 +1004,69 @@
       };
     }
 
-    cloudRef.on('value', snapshot => {
-      const data = snapshot.val();
+    function setSyncStatus(text, color='#5f9139'){
+      const s = document.getElementById('syncStatus');
+      if(s){
+        s.textContent = text;
+        s.style.color = color;
+      }
+    }
 
+    cloudRef.on('value', snapshot => {
+      if(isSaving) return;
+
+      const data = snapshot.val();
       if(data){
         state = normalizeState(data);
         cloudReady = true;
-        const s = document.getElementById('syncStatus');
-        if(s){ s.textContent = '● online'; s.style.color = '#5f9139'; }
+        setSyncStatus('● online');
         render();
       }else{
         state = JSON.parse(JSON.stringify(initialState));
         cloudReady = true;
-        const s = document.getElementById('syncStatus');
-        if(s){ s.textContent = '● online'; s.style.color = '#5f9139'; }
-        cloudRef.set(state);
-        render();
+        setSyncStatus('● online');
+        saveState();
       }
     }, error => {
-      const s = document.getElementById('syncStatus');
-      if(s){ s.textContent = '● erro de conexão'; s.style.color = '#e45858'; }
+      setSyncStatus('● erro de conexão', '#e45858');
       alert('Não foi possível conectar ao Firebase. Confira internet e regras do banco.');
       console.error(error);
       render();
     });
+
+    function saveState(){
+      render();
+
+      if(!cloudReady){
+        setSyncStatus('● conectando');
+        return;
+      }
+
+      isSaving = true;
+      setSyncStatus('● salvando');
+
+      cloudRef.set(state).then(() => {
+        isSaving = false;
+        setSyncStatus('● online');
+      }).catch(error => {
+        isSaving = false;
+        setSyncStatus('● erro ao salvar', '#e45858');
+        alert('Erro ao salvar online. Verifique sua conexão ou as regras do Firebase.');
+        console.error(error);
+      });
+    }
+
+    function saveStateQuiet(){
+      if(!cloudReady) return;
+      isSaving = true;
+      cloudRef.set(state).then(() => {
+        isSaving = false;
+        setSyncStatus('● online');
+      }).catch(error => {
+        isSaving = false;
+        console.error('Erro ao salvar online:', error);
+      });
+    }
 
     function getFlavorById(id){
       return state.settings.flavors.find(f => f.id === id) || state.settings.flavors[0];
@@ -1421,10 +1460,8 @@
     function hardReset(){
       if(confirm('Isso vai apagar vendas, estoque e configurações. Deseja continuar?')){
         state = JSON.parse(JSON.stringify(initialState));
-        cloudRef.set(state).then(() => {
-          render();
-          showScreen('Home');
-        });
+        saveState();
+        showScreen('Home');
       }
     }
 
