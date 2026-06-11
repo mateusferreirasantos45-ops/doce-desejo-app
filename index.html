@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Doce Desejo • Controle de Vendas</title>
+  <style>
+    :root{
+      --bg:#efeff2;
+      --panel:#f7f7fa;
+      --card:#ffffff;
+      --soft:#f1f1f4;
+      --ink:#121317;
+      --muted:#7e808a;
+      --muted2:#9c9ea8;
+      --line:#e6e7eb;
+      --dark:#22242c;
+      --dark-2:#323640;
+      --green:#74ad45;
+      --green-2:#5f9139;
+      --red:#e45858;
+      --brown:#7c4b37;
+      --brown-2:#a56647;
+      --shadow:0 16px 42px rgba(16,19,25,.095);
+      --radius-xl:30px;
+      --radius-lg:24px;
+      --radius-md:18px;
+      --radius-sm:14px;
+    }
+
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
+    body{min-height:100vh}
+
+    .app{
+      max-width:440px;
+      margin:0 auto;
+      min-height:100vh;
+      padding:10px 10px 92px;
+      position:relative;
+    }
+
+    .app-shell{
+      width:100%;
+      min-height:calc(100vh - 20px);
+      background:linear-gradient(180deg,#f2f2f6 0%, #ededf2 100%);
+      border-radius:28px;
+      box-shadow:0 24px 62px rgba(16,19,25,.10);
+      border:1px solid rgba(255,255,255,.72);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .top-area{
+      padding:14px 14px 0;
+    }
+
+    .island-wrap{
+      display:flex;
+      justify-content:center;
+      padding:2px 0 12px;
+    }
+
+    .island{
+      width:104px;
+      height:28px;
+      background:#0d0d0f;
+      border-radius:999px;
+      box-shadow:inset 0 -1px 0 rgba(255,255,255,.08);
+    }
+
+    .screen{
+      display:none;
+      padding:0 12px 20px;
+    }
+    .screen.active{display:block}
+
+    .hero{
+      background:#ececf2;
+      border-radius:28px;
+      padding:16px 14px 14px;
+      position:relative;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .hello strong{
+      display:block;
+      font-size:20px;
+      letter-spacing:-.45px;
+    }
+    .hello span{
+      display:block;
+      color:var(--muted);
+      font-size:14px;
+      margin-top:3px;
+      line-height:1.25;
+    }
+
+    .icon-btn{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      border:0;
+      background:#f5f5fa;
+      box-shadow:inset 0 -1px 0 rgba(0,0,0,.03);
+      color:#2b2d33;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      cursor:pointer;
+      font-weight:900;
+    }
+
+    .tiny-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:#f9f9fc;
+      color:#383a42;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      border:1px solid rgba(0,0,0,.04);
+    }
+
+    .balance{
+      text-align:center;
+      margin:8px 0 14px;
+    }
+    .balance-label{
+      display:inline-block;
+      padding:4px 9px;
+      border-radius:999px;
+      background:#f8f8fb;
+      font-size:11px;
+      color:var(--muted);
+      font-weight:850;
+      margin-bottom:10px;
+      border:1px solid rgba(0,0,0,.04);
+    }
+    .balance strong{
+      display:block;
+      font-size:68px;
+      letter-spacing:-3px;
+      line-height:.9;
+      margin-bottom:10px;
+    }
+    .balance small{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:0;
+      margin-top:4px;
+    }
+
+    .green-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:linear-gradient(180deg,var(--green),var(--green-2));
+      color:#fff;
+      padding:7px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      box-shadow:0 10px 18px rgba(102,150,63,.22);
+    }
+
+    .sale-fast{
+      background:#ffffff;
+      border-radius:24px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.03);
+      margin-top:12px;
+    }
+
+    .sale-label{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:12px;
+    }
+    .sale-label h3{
+      margin:0;
+      font-size:18px;
+      letter-spacing:-.4px;
+    }
+    .subtext{
+      color:var(--muted);
+      font-size:12px;
+      font-weight:750;
+      line-height:1.25;
+      margin-top:3px;
+    }
+
+    .speed-row{
+      display:grid;
+      grid-template-columns:76px 1fr 76px;
+      gap:10px;
+      align-items:center;
+    }
+
+    .circle-btn{
+      border:0;
+      border-radius:50%;
+      aspect-ratio:1;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      font-weight:950;
+      user-select:none;
+      transition:transform .08s ease, filter .12s ease;
+    }
+    .circle-btn:active{transform:scale(.96)}
+    .circle-btn small{font-size:10px;margin-top:3px;opacity:.88}
+    .circle-btn.counter{
+      background:#f4f4f7;
+      color:#20232a;
+      border:1px solid #e4e5ea;
+      font-size:29px;
+      cursor:default;
+    }
+    .circle-btn.undo{
+      background:linear-gradient(180deg,#f36f6f,var(--red));
+      color:#fff;
+      box-shadow:0 14px 24px rgba(228,88,88,.24);
+      font-size:24px;
+    }
+    .circle-btn.sell{
+      border-radius:28px;
+      aspect-ratio:auto;
+      min-height:154px;
+      background:linear-gradient(180deg,var(--green),var(--green-2));
+      color:#fff;
+      box-shadow:0 20px 36px rgba(102,150,63,.26);
+      font-size:36px;
+      padding:10px 10px;
+    }
+    .circle-btn.sell span{
+      display:block;
+      font-size:18px;
+      margin-top:8px;
+      letter-spacing:-.2px;
+    }
+
+    .segment{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      background:#ededf2;
+      padding:5px;
+      border-radius:18px;
+      margin:12px 0 0;
+    }
+    .segment button{
+      border:0;
+      border-radius:14px;
+      min-height:44px;
+      background:transparent;
+      font-weight:950;
+      color:#555862;
+      cursor:pointer;
+    }
+    .segment button.active{
+      background:#ffffff;
+      color:#14161b;
+      box-shadow:0 8px 18px rgba(20,22,27,.08);
+    }
+
+    .panel{
+      background:#fafafc;
+      border-radius:30px 30px 0 0;
+      padding:16px 12px 2px;
+      min-height:45vh;
+      margin-top:-2px;
+      border-top:1px solid rgba(255,255,255,.8);
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .card{
+      background:var(--card);
+      border-radius:20px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(0,0,0,.03);
+    }
+
+    .card-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .card-title strong{font-size:15px;letter-spacing:-.2px}
+    .card-title small{font-size:12px;color:var(--muted)}
+
+    .flavor-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:8px;
+    }
+
+    .flavor-chip{
+      border:1px solid #ececf1;
+      background:#f7f7fa;
+      border-radius:14px;
+      padding:10px 10px;
+      text-align:left;
+      cursor:pointer;
+      min-height:68px;
+      transition:.12s ease;
+    }
+    .flavor-chip.active{
+      background:linear-gradient(180deg,#272a32,#1f2128);
+      color:white;
+      border-color:#272a32;
+      transform:translateY(-1px);
+      box-shadow:0 10px 22px rgba(26,28,34,.18);
+    }
+    .flavor-chip strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:5px;
+      line-height:1.1;
+    }
+    .flavor-chip span{
+      display:block;
+      font-size:11px;
+      color:inherit;
+      opacity:.76;
+      font-weight:750;
+    }
+    .flavor-chip.low{
+      outline:2px solid rgba(228,88,88,.18);
+    }
+
+    .result-box{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      justify-content:space-between;
+    }
+    .result-main{
+      margin-top:8px;
+    }
+    .result-main small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:6px;
+      font-weight:750;
+    }
+    .result-main strong{
+      display:block;
+      font-size:28px;
+      letter-spacing:-1px;
+      margin-bottom:8px;
+    }
+    .sparkline{
+      width:100%;
+      height:84px;
+      margin:8px 0 2px;
+      display:block;
+    }
+
+    .activity-card{
+      margin-top:8px;
+      background:#ffffff;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.03);
+    }
+
+    .activity-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 14px 8px;
+    }
+    .activity-head strong{font-size:15px}
+    .activity-head button{
+      border:0;background:transparent;color:#4d4f58;font-size:18px;cursor:pointer
+    }
+
+    .activity-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      padding:0 10px 12px;
+      max-height:260px;
+      overflow:auto;
+    }
+
+    .activity-item{
+      background:#fbfbfc;
+      border:1px solid #eeeff3;
+      border-radius:16px;
+      padding:12px;
+      display:grid;
+      grid-template-columns:40px 1fr auto;
+      gap:10px;
+      align-items:center;
+      animation:fadeUp .2s ease both;
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(10px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .act-ico{
+      width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#eff0f4;font-size:18px
+    }
+    .activity-item strong{display:block;font-size:14px;line-height:1.15}
+    .activity-item span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+    .activity-item b{font-size:18px;letter-spacing:-.4px;color:#1a7f43}
+
+    .summary-top{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .stat-card{
+      background:#fff;
+      border-radius:20px;
+      padding:14px;
+      border:1px solid rgba(0,0,0,.03);
+      box-shadow:var(--shadow);
+    }
+    .stat-card span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:850;
+      margin-bottom:7px;
+    }
+    .stat-card strong{
+      display:block;
+      font-size:25px;
+      letter-spacing:-.8px;
+      line-height:1;
+    }
+
+    .summary-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-bottom:10px;
+    }
+
+    .pill-btn{
+      border:0;
+      border-radius:16px;
+      min-height:52px;
+      padding:10px 12px;
+      font-weight:950;
+      cursor:pointer;
+    }
+    .pill-btn.dark{
+      background:var(--dark);
+      color:#fff;
+      box-shadow:0 10px 24px rgba(22,24,31,.16);
+    }
+    .pill-btn.soft{
+      background:#fff;
+      color:#17191f;
+      border:1px solid #e7e8ed;
+    }
+
+    .sale-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .sale-row{
+      background:#fff;
+      border-radius:20px;
+      padding:13px;
+      border:1px solid rgba(0,0,0,.03);
+      box-shadow:var(--shadow);
+      display:grid;
+      gap:10px;
+    }
+
+    .sale-row-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .left-title{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .left-title .avatar{
+      width:40px;height:40px;border-radius:14px;background:#f0f1f4;display:grid;place-items:center;font-size:18px
+    }
+    .left-title strong{display:block;font-size:14px}
+    .left-title span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+
+    .status-icons{
+      display:flex;
+      gap:6px;
+      flex-shrink:0;
+    }
+
+    .status-icon{
+      width:38px;
+      height:38px;
+      border-radius:14px;
+      border:1px solid #e7e8ed;
+      background:#f7f7fa;
+      color:#8d9099;
+      font-weight:950;
+      font-size:17px;
+      cursor:pointer;
+    }
+
+    .status-icon.ok.active{
+      background:var(--green);
+      color:#fff;
+      border-color:var(--green);
+    }
+
+    .status-icon.no.active{
+      background:var(--red);
+      color:#fff;
+      border-color:var(--red);
+    }
+
+    .sale-fields{
+      display:grid;
+      grid-template-columns:1fr 92px;
+      gap:9px;
+    }
+    .sale-fields input, .control-card input{
+      width:100%;
+      border:1px solid #e7e8ed;
+      background:#fafafc;
+      border-radius:14px;
+      min-height:46px;
+      padding:11px 12px;
+      font-size:14px;
+      font-weight:750;
+      outline:none;
+      color:#15161b;
+    }
+    .sale-fields input:focus, .control-card input:focus{
+      border-color:#a8acb8;
+      box-shadow:0 0 0 4px rgba(40,44,52,.06);
+      background:#fff;
+    }
+    .delete-btn{
+      border:0;
+      border-radius:14px;
+      background:#fff1f1;
+      color:#bf3030;
+      font-weight:950;
+      cursor:pointer;
+    }
+
+    .control-card{
+      background:#fff;
+      border-radius:24px;
+      padding:14px;
+      border:1px solid rgba(0,0,0,.03);
+      box-shadow:var(--shadow);
+      display:grid;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .field-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .control-card label{
+      display:grid;
+      gap:7px;
+      font-size:12px;
+      font-weight:950;
+      color:#666973;
+    }
+
+    .full{grid-column:1/-1}
+
+    .subsection{
+      margin-top:2px;
+      padding-top:4px;
+      border-top:1px solid #eff0f4;
+    }
+
+    .subsection h4{
+      margin:8px 0 10px;
+      font-size:15px;
+      letter-spacing:-.2px;
+    }
+
+    .flavor-control{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:8px;
+      margin-bottom:8px;
+    }
+
+    .helper{
+      background:#f6f7fa;
+      border:1px dashed #d8dae2;
+      color:#6f727d;
+      border-radius:16px;
+      padding:12px;
+      font-size:12px;
+      font-weight:750;
+      line-height:1.45;
+    }
+
+    .empty{
+      background:#fff;
+      border-radius:18px;
+      padding:20px 14px;
+      text-align:center;
+      color:var(--muted);
+      border:1px solid #eaebef;
+      font-weight:750;
+    }
+
+    .bottom-nav{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:12px;
+      width:min(424px, calc(100% - 24px));
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(18px);
+      border:1px solid rgba(228,230,236,.95);
+      border-radius:22px;
+      padding:7px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+      box-shadow:0 18px 40px rgba(16,19,25,.12);
+      z-index:30;
+    }
+
+    .bottom-nav button{
+      border:0;
+      border-radius:16px;
+      min-height:52px;
+      background:transparent;
+      font-weight:950;
+      color:#6f727d;
+      cursor:pointer;
+    }
+    .bottom-nav button.active{
+      background:var(--dark);
+      color:#fff;
+      box-shadow:0 10px 22px rgba(20,22,27,.18);
+    }
+
+    #reportArea{
+      position:absolute;
+      left:-9999px;
+      width:900px;
+      background:#ffffff;
+      color:#13151a;
+      font-family:Arial,sans-serif;
+      padding:28px;
+    }
+
+    .report-wrap{
+      border:1px solid #e9eaee;
+      border-radius:28px;
+      padding:26px;
+      background:#fff;
+    }
+    .report-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:16px;
+      padding-bottom:16px;
+      border-bottom:1px solid #ececf1;
+    }
+    .report-head h1{margin:0;font-size:32px}
+    .report-head p{margin:6px 0 0;color:#70737e}
+    .report-metrics{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-bottom:18px;
+    }
+    .report-metric{
+      background:#f6f7fa;
+      border-radius:16px;
+      padding:14px;
+    }
+    .report-metric span{display:block;color:#70737e;font-size:12px;margin-bottom:5px}
+    .report-metric strong{font-size:20px}
+    .report-table{width:100%;border-collapse:collapse}
+    .report-table th,.report-table td{
+      padding:12px;
+      text-align:left;
+      border-bottom:1px solid #ececf1;
+      font-size:14px;
+    }
+    .report-table th{font-size:12px;color:#70737e;text-transform:uppercase}
+    .tag-paid{display:inline-block;padding:6px 10px;border-radius:999px;background:#edf8ef;color:#1a7f43;font-weight:700;font-size:12px}
+    .tag-open{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff2f2;color:#c53f3f;font-weight:700;font-size:12px}
+
+    @media print{
+      body{background:#fff}
+      .app,.bottom-nav{display:none!important}
+      #reportArea{position:static;left:auto;width:auto;padding:0}
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="app-shell">
+      <div class="top-area">
+        <div class="island-wrap"><div class="island"></div></div>
+        <div id="syncStatus" style="text-align:center;font-size:11px;font-weight:900;color:#5f9139;margin:-5px 0 8px;">● conectando</div>
+      </div>
+
+      <!-- VENDAS -->
+      <section class="screen active" id="screenHome">
+        <div class="hero">
+          <div class="hero-top">
+            <div class="hello">
+              <strong id="greetingTitle">Oi, Vendedora!</strong>
+              <span>Toque no botão verde a cada venda.</span>
+            </div>
+            <button class="icon-btn" onclick="showScreen('Controle')">⚙</button>
+          </div>
+
+          <div class="balance">
+            <div class="balance-label">Quantidade vendida</div>
+            <strong id="heroQty">0</strong>
+            <small id="heroQtyDetail">0 brownies • 0 bombons</small>
+          </div>
+
+          <div class="sale-fast">
+            <div class="sale-label">
+              <div>
+                <h3 id="saleTitle">Venda rápida • Brownie</h3>
+                <div class="subtext" id="saleSub">Sabor selecionado: Ninho</div>
+              </div>
+              <div class="tiny-badge" id="saleRemaining">Restam 0</div>
+            </div>
+
+            <div class="speed-row">
+              <button class="circle-btn counter" type="button">
+                <span id="currentCount">0</span>
+                <small>vendidos</small>
+              </button>
+              <button class="circle-btn sell" onclick="quickAddCurrent()">+1<span id="sellBtnText">Vender Brownie</span></button>
+              <button class="circle-btn undo" onclick="undoLast()">↶<small>erro</small></button>
+            </div>
+
+            <div class="segment">
+              <button id="segBrownie" class="active" onclick="setCurrentProduct('brownie')">Brownie</button>
+              <button id="segBombom" onclick="setCurrentProduct('bombom')">Bombom</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">
+                <strong>Sabores do Brownie</strong>
+                <small>estoque</small>
+              </div>
+              <div class="flavor-grid" id="flavorGrid"></div>
+            </div>
+
+            <div class="card result-box">
+              <div class="card-title">
+                <strong>Resumo rápido</strong>
+                <small>hoje</small>
+              </div>
+              <div class="result-main">
+                <small>Comissão da vendedora</small>
+                <strong id="heroCommission">R$ 0,00</strong>
+                <svg class="sparkline" id="salesChart" viewBox="0 0 220 90" preserveAspectRatio="none"></svg>
+                <div class="green-pill" style="font-size:11px;padding:6px 11px">✓ <span id="stockStatus">Estoque ok</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card">
+            <div class="activity-head">
+              <strong>Vendas recentes</strong>
+              <button onclick="clearAllSales()">⌫</button>
+            </div>
+            <div class="activity-list" id="activityList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESUMO -->
+      <section class="screen" id="screenResumo">
+        <div class="hero" style="padding-bottom:14px">
+          <div class="hero-top" style="margin-bottom:0">
+            <div class="hello">
+              <strong>Resumo de vendas</strong>
+              <span>Marque pago ou não pago e edite o cliente.</span>
+            </div>
+            <button class="icon-btn" onclick="showScreen('Home')">←</button>
+          </div>
+        </div>
+
+        <div class="panel" style="padding-top:14px">
+          <div class="summary-top">
+            <div class="stat-card"><span>Brownies vendidos</span><strong id="sumBrownies">0</strong></div>
+            <div class="stat-card"><span>Bombons vendidos</span><strong id="sumBombons">0</strong></div>
+            <div class="stat-card"><span>Total vendido</span><strong id="sumTotalQty">0</strong></div>
+            <div class="stat-card"><span>Comissão</span><strong id="sumCommission">R$ 0,00</strong></div>
+            <div class="stat-card"><span>Pagos</span><strong id="sumPaidQty">0</strong></div>
+            <div class="stat-card"><span>Não pagos</span><strong id="sumPendingQty">0</strong></div>
+          </div>
+
+          <div class="summary-actions">
+            <button class="pill-btn dark" onclick="downloadPNG()">Baixar PNG</button>
+            <button class="pill-btn soft" onclick="printReport()">PDF / Imprimir</button>
+          </div>
+
+          <div class="sale-list" id="salesList"></div>
+        </div>
+      </section>
+
+      <!-- CONTROLE -->
+      <section class="screen" id="screenControle">
+        <div class="hero" style="padding-bottom:14px">
+          <div class="hero-top" style="margin-bottom:0">
+            <div class="hello">
+              <strong>Controle</strong>
+              <span>Estoque, sabores, valores e comissão fixa.</span>
+            </div>
+            <button class="icon-btn" onclick="showScreen('Home')">←</button>
+          </div>
+        </div>
+
+        <div class="panel" style="padding-top:14px">
+          <div class="control-card">
+            <div class="field-grid">
+              <label class="full">Nome da vendedora
+                <input id="sellerNameInput" placeholder="Ex.: Ester">
+              </label>
+
+              <label>Valor do Brownie
+                <input id="priceBrownieInput" type="number" min="0" step="0.01" inputmode="decimal">
+              </label>
+              <label>Valor do Bombom
+                <input id="priceBombomInput" type="number" min="0" step="0.01" inputmode="decimal">
+              </label>
+
+              <label>Comissão Brownie
+                <input id="commBrownieInput" type="number" min="0" step="0.01" inputmode="decimal">
+              </label>
+              <label>Comissão Bombom
+                <input id="commBombomInput" type="number" min="0" step="0.01" inputmode="decimal">
+              </label>
+            </div>
+
+            <div class="subsection">
+              <h4>Estoque por sabor de brownie</h4>
+              <div id="flavorControlList"></div>
+            </div>
+
+            <div class="subsection">
+              <h4>Bombom de travessa</h4>
+              <div class="field-grid">
+                <label>Quantidade entregue
+                  <input id="stockBombomInput" type="number" min="0" step="1" inputmode="numeric">
+                </label>
+              </div>
+            </div>
+
+            <button class="pill-btn dark" onclick="saveSettings()">Salvar configurações</button>
+            <button class="pill-btn soft" style="background:#fff1f1;color:#bf3030;border:1px solid #ffd8d8" onclick="hardReset()">Zerar tudo</button>
+
+            <div class="helper">
+              Comissão padrão configurada em R$ 2,00 por produto. O valor pode ser alterado aqui se um dia vocês mudarem a regra.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="active" id="navHome" onclick="showScreen('Home')">Vender</button>
+      <button id="navResumo" onclick="showScreen('Resumo')">Resumo</button>
+      <button id="navControle" onclick="showScreen('Controle')">Controle</button>
+    </nav>
+
+    <div id="reportArea"></div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+
+  <script>
+    const money = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDSHLzsk0MO7N2dlVC3ikjnUDP5MBEqVG4",
+      authDomain: "doce-desejo-4ed02.firebaseapp.com",
+      databaseURL: "https://doce-desejo-4ed02-default-rtdb.firebaseio.com",
+      projectId: "doce-desejo-4ed02",
+      storageBucket: "doce-desejo-4ed02.firebasestorage.app",
+      messagingSenderId: "1000561475598",
+      appId: "1:1000561475598:web:fb45c86494274fea35fc5f"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const cloudRef = database.ref('doceDesejo/appPrincipal');
+
+    const defaultFlavors = [
+      {id:'ninho', name:'Ninho', stock:0},
+      {id:'blue', name:'Blue', stock:0},
+      {id:'brigadeiro', name:'Brigadeiro', stock:0},
+      {id:'maracuja', name:'Maracujá', stock:0},
+      {id:'especial', name:'Especial', stock:0}
+    ];
+
+    const initialState = {
+      sellerName: 'Ester',
+      currentProduct: 'brownie',
+      currentFlavorId: 'ninho',
+      settings: {
+        priceBrownie: 10,
+        priceBombom: 10,
+        commBrownie: 2,
+        commBombom: 2,
+        stockBombom: 0,
+        flavors: JSON.parse(JSON.stringify(defaultFlavors))
+      },
+      sales: []
+    };
+
+    let state = JSON.parse(JSON.stringify(initialState));
+    let cloudReady = false;
+
+    function normalizeState(saved){
+      if(!saved) return JSON.parse(JSON.stringify(initialState));
+
+      const savedFlavors = Array.isArray(saved?.settings?.flavors) ? saved.settings.flavors : [];
+      const mergedFlavors = defaultFlavors.map(df => {
+        const sf = savedFlavors.find(f => f.id === df.id);
+        return {
+          id: df.id,
+          name: sf?.name || df.name,
+          stock: Number(sf?.stock || 0)
+        };
+      });
+
+      return {
+        sellerName: saved.sellerName || 'Ester',
+        currentProduct: saved.currentProduct || 'brownie',
+        currentFlavorId: saved.currentFlavorId || 'ninho',
+        settings: {
+          priceBrownie: Number(saved?.settings?.priceBrownie ?? 10),
+          priceBombom: Number(saved?.settings?.priceBombom ?? 10),
+          commBrownie: Number(saved?.settings?.commBrownie ?? 2),
+          commBombom: Number(saved?.settings?.commBombom ?? 2),
+          stockBombom: Number(saved?.settings?.stockBombom ?? 0),
+          flavors: mergedFlavors
+        },
+        sales: Array.isArray(saved.sales) ? saved.sales : []
+      };
+    }
+
+    cloudRef.on('value', snapshot => {
+      const data = snapshot.val();
+
+      if(data){
+        state = normalizeState(data);
+        cloudReady = true;
+        const s = document.getElementById('syncStatus');
+        if(s){ s.textContent = '● online'; s.style.color = '#5f9139'; }
+        render();
+      }else{
+        state = JSON.parse(JSON.stringify(initialState));
+        cloudReady = true;
+        const s = document.getElementById('syncStatus');
+        if(s){ s.textContent = '● online'; s.style.color = '#5f9139'; }
+        cloudRef.set(state);
+        render();
+      }
+    }, error => {
+      const s = document.getElementById('syncStatus');
+      if(s){ s.textContent = '● erro de conexão'; s.style.color = '#e45858'; }
+      alert('Não foi possível conectar ao Firebase. Confira internet e regras do banco.');
+      console.error(error);
+      render();
+    });
+
+    function getFlavorById(id){
+      return state.settings.flavors.find(f => f.id === id) || state.settings.flavors[0];
+    }
+
+    function getSoldBrownies(flavorId=null){
+      return state.sales.filter(s => s.product === 'brownie' && (flavorId ? s.flavorId === flavorId : true)).length;
+    }
+
+    function getRemainingBrownie(flavorId){
+      const flavor = getFlavorById(flavorId);
+      return Math.max(0, Number(flavor.stock) - getSoldBrownies(flavorId));
+    }
+
+    function getRemainingBombom(){
+      const sold = state.sales.filter(s => s.product === 'bombom').length;
+      return Math.max(0, Number(state.settings.stockBombom) - sold);
+    }
+
+    function totalRemainingBrownies(){
+      return state.settings.flavors.reduce((acc, f) => acc + getRemainingBrownie(f.id), 0);
+    }
+
+    function getCurrentFlavor(){
+      return getFlavorById(state.currentFlavorId);
+    }
+
+    function currentProductMeta(){
+      if(state.currentProduct === 'bombom'){
+        return {
+          title: 'Bombom de travessa',
+          value: Number(state.settings.priceBombom || 0),
+          commissionValue: Number(state.settings.commBombom || 0),
+          remaining: getRemainingBombom(),
+          emoji: '🍮',
+          subtitle: 'Venda rápida de bombom'
+        };
+      }
+      const flavor = getCurrentFlavor();
+      return {
+        title: 'Brownie',
+        value: Number(state.settings.priceBrownie || 0),
+        commissionValue: Number(state.settings.commBrownie || 0),
+        remaining: getRemainingBrownie(flavor.id),
+        emoji: '🍫',
+        subtitle: 'Sabor selecionado: ' + flavor.name
+      };
+    }
+
+    function addSale(product){
+      if(product === 'brownie'){
+        const flavor = getCurrentFlavor();
+        const remaining = getRemainingBrownie(flavor.id);
+        if(remaining <= 0){
+          vibrate();
+          alert('Esse sabor está sem estoque. Ajuste no menu Controle ou selecione outro sabor.');
+          return;
+        }
+        const value = Number(state.settings.priceBrownie || 0);
+        const commissionValue = Number(state.settings.commBrownie || 0);
+        state.sales.unshift({
+          id: uid(),
+          product: 'brownie',
+          flavorId: flavor.id,
+          flavorName: flavor.name,
+          buyer: 'Cliente',
+          paid: false,
+          value,
+          commissionValue,
+          createdAt: new Date().toISOString()
+        });
+      }else{
+        const remaining = getRemainingBombom();
+        if(remaining <= 0){
+          vibrate();
+          alert('Bombom sem estoque. Ajuste no menu Controle.');
+          return;
+        }
+        const value = Number(state.settings.priceBombom || 0);
+        const commissionValue = Number(state.settings.commBombom || 0);
+        state.sales.unshift({
+          id: uid(),
+          product: 'bombom',
+          buyer: 'Cliente',
+          paid: false,
+          value,
+          commissionValue,
+          createdAt: new Date().toISOString()
+        });
+      }
+      vibrate();
+      saveState();
+    }
+
+    function quickAddCurrent(){
+      addSale(state.currentProduct);
+    }
+
+    function undoLast(){
+      if(state.sales.length === 0) return;
+      state.sales.shift();
+      vibrate();
+      saveState();
+    }
+
+    function setCurrentProduct(product){
+      state.currentProduct = product;
+      saveState();
+    }
+
+    function setFlavor(id){
+      state.currentFlavorId = id;
+      state.currentProduct = 'brownie';
+      saveState();
+    }
+
+    function totals(){
+      const totalValue = state.sales.reduce((acc, s) => acc + Number(s.value || 0), 0);
+      const commission = state.sales.reduce((acc, s) => acc + Number(s.commissionValue || 0), 0);
+      const paidValue = state.sales.filter(s => s.paid).reduce((acc, s) => acc + Number(s.value || 0), 0);
+      const brownies = state.sales.filter(s => s.product === 'brownie').length;
+      const bombons = state.sales.filter(s => s.product === 'bombom').length;
+      const paidQty = state.sales.filter(s => s.paid).length;
+      const pendingQty = state.sales.filter(s => !s.paid).length;
+      return {
+        totalValue,
+        commission,
+        paidValue,
+        pendingValue: totalValue - paidValue,
+        brownies,
+        bombons,
+        paidQty,
+        pendingQty,
+        count: state.sales.length
+      };
+    }
+
+    function currentProductSoldCount(){
+      if(state.currentProduct === 'bombom'){
+        return state.sales.filter(s => s.product === 'bombom').length;
+      }
+      return state.sales.filter(s => s.product === 'brownie' && s.flavorId === state.currentFlavorId).length;
+    }
+
+    function render(){
+      const t = totals();
+      const seller = state.sellerName || 'Vendedora';
+
+      document.getElementById('greetingTitle').textContent = `Oi, ${seller}!`;
+      document.getElementById('heroQty').textContent = t.count;
+      document.getElementById('heroQtyDetail').textContent = `${t.brownies} brownie${t.brownies === 1 ? '' : 's'} • ${t.bombons} bombom${t.bombons === 1 ? '' : 's'}`;
+      document.getElementById('heroCommission').textContent = money.format(t.commission);
+
+      document.getElementById('sumBrownies').textContent = t.brownies;
+      document.getElementById('sumBombons').textContent = t.bombons;
+      document.getElementById('sumTotalQty').textContent = t.count;
+      document.getElementById('sumCommission').textContent = money.format(t.commission);
+      document.getElementById('sumPaidQty').textContent = t.paidQty;
+      document.getElementById('sumPendingQty').textContent = t.pendingQty;
+
+      renderFlavorGrid();
+      renderCurrentSaleState();
+      renderActivity();
+      renderSalesList();
+      renderChart();
+      renderControls();
+      buildReport();
+      renderStockStatus();
+    }
+
+    function renderFlavorGrid(){
+      const target = document.getElementById('flavorGrid');
+      target.innerHTML = state.settings.flavors.map(flavor => {
+        const rem = getRemainingBrownie(flavor.id);
+        const active = state.currentFlavorId === flavor.id ? 'active' : '';
+        const low = rem <= 2 ? 'low' : '';
+        return `
+          <button class="flavor-chip ${active} ${low}" onclick="setFlavor('${flavor.id}')">
+            <strong>${escapeHtml(flavor.name)}</strong>
+            <span>${rem} restante${rem === 1 ? '' : 's'}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderCurrentSaleState(){
+      document.getElementById('segBrownie').classList.toggle('active', state.currentProduct === 'brownie');
+      document.getElementById('segBombom').classList.toggle('active', state.currentProduct === 'bombom');
+
+      const meta = currentProductMeta();
+      document.getElementById('saleTitle').textContent = `Venda rápida • ${meta.title}`;
+      document.getElementById('saleSub').textContent = meta.subtitle;
+      document.getElementById('sellBtnText').textContent = `Vender ${state.currentProduct === 'brownie' ? 'Brownie' : 'Bombom'}`;
+      document.getElementById('saleRemaining').textContent = `Restam ${meta.remaining}`;
+      document.getElementById('currentCount').textContent = currentProductSoldCount();
+    }
+
+    function renderActivity(){
+      const box = document.getElementById('activityList');
+      if(state.sales.length === 0){
+        box.innerHTML = `<div class="empty">Nenhuma venda registrada ainda.</div>`;
+        return;
+      }
+
+      box.innerHTML = state.sales.slice(0,8).map(s => {
+        const date = new Date(s.createdAt);
+        const hh = String(date.getHours()).padStart(2,'0');
+        const mm = String(date.getMinutes()).padStart(2,'0');
+        const title = s.product === 'brownie'
+          ? `Brownie • ${escapeHtml(s.flavorName || 'Sabor')}`
+          : 'Bombom de travessa';
+        return `
+          <div class="activity-item">
+            <div class="act-ico">${s.product === 'brownie' ? '🍫' : '🍮'}</div>
+            <div>
+              <strong>${title}</strong>
+              <span>${hh}:${mm} • ${s.paid ? 'Pago' : 'Não pago'}</span>
+            </div>
+            <b>+1</b>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderSalesList(){
+      const list = document.getElementById('salesList');
+      if(state.sales.length === 0){
+        list.innerHTML = `<div class="empty">As vendas aparecerão aqui para edição.</div>`;
+        return;
+      }
+
+      list.innerHTML = state.sales.map(s => {
+        const date = new Date(s.createdAt);
+        const when = date.toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+        const title = s.product === 'brownie'
+          ? `Brownie • ${escapeHtml(s.flavorName || 'Sabor')}`
+          : 'Bombom de travessa';
+
+        return `
+          <div class="sale-row">
+            <div class="sale-row-top">
+              <div class="left-title">
+                <div class="avatar">${s.product === 'brownie' ? '🍫' : '🍮'}</div>
+                <div>
+                  <strong>${title}</strong>
+                  <span>${when} • Comissão ${money.format(Number(s.commissionValue || 0))}</span>
+                </div>
+              </div>
+              <div class="status-icons">
+                <button class="status-icon ok ${s.paid ? 'active' : ''}" onclick="setPaid('${s.id}', true)">✓</button>
+                <button class="status-icon no ${!s.paid ? 'active' : ''}" onclick="setPaid('${s.id}', false)">×</button>
+              </div>
+            </div>
+
+            <div class="sale-fields">
+              <input value="${escapeHtml(s.buyer || 'Cliente')}" oninput="updateBuyer('${s.id}', this.value)" placeholder="Nome do cliente">
+              <button class="delete-btn" onclick="deleteSale('${s.id}')">Excluir</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderControls(){
+      document.getElementById('sellerNameInput').value = state.sellerName || '';
+      document.getElementById('priceBrownieInput').value = state.settings.priceBrownie;
+      document.getElementById('priceBombomInput').value = state.settings.priceBombom;
+      document.getElementById('commBrownieInput').value = state.settings.commBrownie;
+      document.getElementById('commBombomInput').value = state.settings.commBombom;
+      document.getElementById('stockBombomInput').value = state.settings.stockBombom;
+
+      const flavorList = document.getElementById('flavorControlList');
+      flavorList.innerHTML = state.settings.flavors.map(flavor => `
+        <div class="flavor-control">
+          <input value="${escapeHtml(flavor.name)}" placeholder="Nome do sabor" oninput="updateFlavorName('${flavor.id}', this.value)">
+          <input type="number" min="0" step="1" inputmode="numeric" value="${Number(flavor.stock || 0)}" oninput="updateFlavorStock('${flavor.id}', this.value)">
+        </div>
+      `).join('');
+    }
+
+    function renderChart(){
+      const svg = document.getElementById('salesChart');
+      const values = lastSevenDaysQty();
+      const w = 220, h = 90, pad = 8;
+      const max = Math.max(...values, 1);
+      const step = (w - pad*2) / (values.length - 1 || 1);
+
+      const pts = values.map((v,i)=>{
+        const x = pad + i*step;
+        const y = h - pad - ((v / max) * (h - pad*2));
+        return [x,y];
+      });
+
+      const line = pts.map((p,i)=>`${i===0?'M':'L'} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+      const area = `${line} L ${(w-pad).toFixed(1)} ${(h-pad).toFixed(1)} L ${pad} ${(h-pad).toFixed(1)} Z`;
+
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="fillG" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stop-color="#74ad45" stop-opacity=".30"/>
+            <stop offset="100%" stop-color="#74ad45" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="${area}" fill="url(#fillG)"></path>
+        <path d="${line}" fill="none" stroke="#74ad45" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        ${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#74ad45"></circle>`).join('')}
+      `;
+    }
+
+    function lastSevenDaysQty(){
+      const result = [];
+      for(let i=6;i>=0;i--){
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0,10);
+        const qty = state.sales.filter(s => (s.createdAt || '').slice(0,10) === key).length;
+        result.push(qty);
+      }
+      return result;
+    }
+
+    function renderStockStatus(){
+      const brow = totalRemainingBrownies();
+      const bom = getRemainingBombom();
+      let text = `Brownies: ${brow} • Bombom: ${bom}`;
+      if(brow <= 3 || bom <= 2){
+        text = `Estoque baixo • B:${brow} / M:${bom}`;
+      }
+      document.getElementById('stockStatus').textContent = text;
+    }
+
+    function setPaid(id, status){
+      const sale = state.sales.find(s => s.id === id);
+      if(sale){
+        sale.paid = status;
+        saveState();
+      }
+    }
+
+    function updateBuyer(id, value){
+      const sale = state.sales.find(s => s.id === id);
+      if(sale){
+        sale.buyer = value;
+        saveStateQuiet();
+        buildReport();
+      }
+    }
+
+    function deleteSale(id){
+      state.sales = state.sales.filter(s => s.id !== id);
+      saveState();
+    }
+
+    function saveSettings(){
+      state.sellerName = document.getElementById('sellerNameInput').value.trim() || 'Ester';
+      state.settings.priceBrownie = Number(document.getElementById('priceBrownieInput').value || 0);
+      state.settings.priceBombom = Number(document.getElementById('priceBombomInput').value || 0);
+      state.settings.commBrownie = Number(document.getElementById('commBrownieInput').value || 0);
+      state.settings.commBombom = Number(document.getElementById('commBombomInput').value || 0);
+      state.settings.stockBombom = Number(document.getElementById('stockBombomInput').value || 0);
+
+      saveState();
+      alert('Configurações salvas.');
+    }
+
+    function updateFlavorName(id, value){
+      const flavor = getFlavorById(id);
+      if(flavor){
+        flavor.name = value;
+        saveStateQuiet();
+        render();
+      }
+    }
+
+    function updateFlavorStock(id, value){
+      const flavor = getFlavorById(id);
+      if(flavor){
+        flavor.stock = Number(value || 0);
+        saveStateQuiet();
+        render();
+      }
+    }
+
+    function clearAllSales(){
+      if(confirm('Deseja limpar todas as vendas registradas?')){
+        state.sales = [];
+        saveState();
+      }
+    }
+
+    function hardReset(){
+      if(confirm('Isso vai apagar vendas, estoque e configurações. Deseja continuar?')){
+        state = JSON.parse(JSON.stringify(initialState));
+        cloudRef.set(state).then(() => {
+          render();
+          showScreen('Home');
+        });
+      }
+    }
+
+    function showScreen(name){
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + name).classList.add('active');
+
+      document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('nav' + name).classList.add('active');
+    }
+
+    function uid(){
+      return (crypto.randomUUID && crypto.randomUUID()) || String(Date.now() + Math.random());
+    }
+
+    function escapeHtml(text){
+      return String(text || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+    }
+
+    function buildReport(){
+      const t = totals();
+      const date = new Date().toLocaleDateString('pt-BR',{day:'2-digit', month:'long', year:'numeric'});
+      const rows = state.sales.slice().reverse().map((s, i) => `
+        <tr>
+          <td>${i+1}</td>
+          <td>${s.product === 'brownie' ? 'Brownie • ' + escapeHtml(s.flavorName || 'Sabor') : 'Bombom de travessa'}</td>
+          <td>${escapeHtml(s.buyer || 'Cliente')}</td>
+          <td>${s.paid ? '<span class="tag-paid">Pago</span>' : '<span class="tag-open">Não pago</span>'}</td>
+          <td>${money.format(Number(s.commissionValue || 0))}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('reportArea').innerHTML = `
+        <div class="report-wrap">
+          <div class="report-head">
+            <div>
+              <h1>Doce Desejo</h1>
+              <p>Relatório de vendas • ${date}</p>
+              <p><strong>Vendedora:</strong> ${escapeHtml(state.sellerName || 'Ester')}</p>
+            </div>
+            <div style="font-size:54px">🍫</div>
+          </div>
+
+          <div class="report-metrics">
+            <div class="report-metric"><span>Vendas</span><strong>${t.count}</strong></div>
+            <div class="report-metric"><span>Brownies</span><strong>${t.brownies}</strong></div>
+            <div class="report-metric"><span>Bombons</span><strong>${t.bombons}</strong></div>
+            <div class="report-metric"><span>Comissão</span><strong>${money.format(t.commission)}</strong></div>
+          </div>
+
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Produto</th>
+                <th>Cliente</th>
+                <th>Status</th>
+                <th>Comissão</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows || '<tr><td colspan="5">Nenhuma venda registrada.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function printReport(){
+      buildReport();
+      window.print();
+    }
+
+    function downloadPNG(){
+      buildReport();
+
+      const rows = Math.max(state.sales.length, 1);
+      const width = 1200;
+      const rowH = 44;
+      const height = 520 + rowH * rows;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#f1f2f5';
+      ctx.fillRect(0, 0, width, height);
+
+      drawRound(ctx, 40, 40, width - 80, height - 80, 30, '#ffffff');
+
+      ctx.fillStyle = '#13151a';
+      ctx.font = 'bold 48px Arial';
+      ctx.fillText('Doce Desejo', 82, 115);
+
+      ctx.fillStyle = '#70737e';
+      ctx.font = '24px Arial';
+      ctx.fillText('Relatório de vendas • ' + new Date().toLocaleDateString('pt-BR'), 82, 150);
+      ctx.fillText('Vendedora: ' + (state.sellerName || 'Ester'), 82, 186);
+
+      const t = totals();
+      const metrics = [
+        ['Vendas', String(t.count)],
+        ['Brownies', String(t.brownies)],
+        ['Bombons', String(t.bombons)],
+        ['Comissão', money.format(t.commission)]
+      ];
+
+      metrics.forEach((m, i) => {
+        const x = 82 + i * 265;
+        drawRound(ctx, x, 220, 235, 95, 18, '#f6f7fa');
+        ctx.fillStyle = '#70737e';
+        ctx.font = 'bold 20px Arial';
+        ctx.fillText(m[0], x + 18, 254);
+        ctx.fillStyle = '#13151a';
+        ctx.font = 'bold 30px Arial';
+        ctx.fillText(m[1], x + 18, 291);
+      });
+
+      let y = 370;
+      ctx.fillStyle = '#70737e';
+      ctx.font = 'bold 18px Arial';
+      ctx.fillText('PRODUTO', 82, y);
+      ctx.fillText('CLIENTE', 520, y);
+      ctx.fillText('STATUS', 790, y);
+      ctx.fillText('COMISSÃO', 980, y);
+
+      ctx.strokeStyle = '#e9eaee';
+      ctx.beginPath();
+      ctx.moveTo(82, y + 16);
+      ctx.lineTo(width - 82, y + 16);
+      ctx.stroke();
+
+      ctx.font = '22px Arial';
+      y += 54;
+
+      const list = state.sales.slice().reverse();
+      if(list.length === 0){
+        ctx.fillStyle = '#13151a';
+        ctx.fillText('Nenhuma venda registrada.', 82, y);
+      }else{
+        list.forEach(s => {
+          const product = s.product === 'brownie' ? `Brownie • ${s.flavorName || 'Sabor'}` : 'Bombom de travessa';
+          ctx.fillStyle = '#13151a';
+          ctx.fillText(product.slice(0,28), 82, y);
+          ctx.fillText((s.buyer || 'Cliente').slice(0,18), 520, y);
+          ctx.fillStyle = s.paid ? '#1a7f43' : '#c53f3f';
+          ctx.fillText(s.paid ? 'Pago' : 'Não pago', 790, y);
+          ctx.fillStyle = '#13151a';
+          ctx.fillText(money.format(Number(s.commissionValue || 0)), 980, y);
+          y += rowH;
+        });
+      }
+
+      const link = document.createElement('a');
+      link.download = 'relatorio-doce-desejo.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function drawRound(ctx, x, y, w, h, r, color){
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function vibrate(){
+      if(navigator.vibrate) navigator.vibrate(24);
+    }
+
+    render();
+  </script>
+</body>
+</html>
