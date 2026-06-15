@@ -655,6 +655,113 @@
       font-weight:750;
     }
 
+
+
+    .projection-strip{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin:12px 0 0;
+    }
+
+    .projection-card{
+      background:#ffffff;
+      border-radius:18px;
+      padding:12px;
+      border:1px solid rgba(0,0,0,.04);
+      box-shadow:0 10px 24px rgba(16,19,25,.07);
+    }
+
+    .projection-card span{
+      display:block;
+      color:#7e808a;
+      font-size:11px;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+
+    .projection-card strong{
+      display:block;
+      color:#121317;
+      font-size:22px;
+      letter-spacing:-.7px;
+      line-height:1;
+    }
+
+    .projection-card.full{
+      grid-column:1/-1;
+    }
+
+    .projection-card.full strong{
+      font-size:26px;
+    }
+
+    .payment-selector{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:7px;
+      margin-top:12px;
+      background:#ededf2;
+      padding:5px;
+      border-radius:18px;
+    }
+
+    .payment-selector button{
+      border:0;
+      border-radius:14px;
+      min-height:42px;
+      background:transparent;
+      font-weight:950;
+      color:#555862;
+      cursor:pointer;
+      font-size:12px;
+    }
+
+    .payment-selector button.active{
+      background:#ffffff;
+      color:#14161b;
+      box-shadow:0 8px 18px rgba(20,22,27,.08);
+    }
+
+    .method-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+    }
+
+    .method-btn{
+      border:1px solid #e7e8ed;
+      border-radius:14px;
+      min-height:38px;
+      background:#f7f7fa;
+      color:#696c76;
+      font-size:12px;
+      font-weight:950;
+      cursor:pointer;
+    }
+
+    .method-btn.active{
+      background:#22242c;
+      color:#fff;
+      border-color:#22242c;
+    }
+
+    .payment-mini{
+      display:inline-block;
+      margin-top:4px;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      background:#f1f2f5;
+      color:#666973;
+    }
+
+    .payment-mini.paid{
+      background:#edf8ef;
+      color:#1a7f43;
+    }
+
     .bottom-nav{
       position:fixed;
       left:50%;
@@ -771,6 +878,17 @@
             <small id="heroQtyDetail">0 brownies • 0 bombons</small>
           </div>
 
+          <div class="projection-strip">
+            <div class="projection-card">
+              <span>Quantidade cadastrada</span>
+              <strong id="heroProjectedQty">0</strong>
+            </div>
+            <div class="projection-card">
+              <span>Retorno previsto</span>
+              <strong id="heroProjectedValue">R$ 0,00</strong>
+            </div>
+          </div>
+
           <div class="sale-fast">
             <div class="sale-label">
               <div>
@@ -792,6 +910,13 @@
             <div class="segment">
               <button id="segBrownie" class="active" onclick="setCurrentProduct('brownie')">Brownie</button>
               <button id="segBombom" onclick="setCurrentProduct('bombom')">Bombom</button>
+            </div>
+
+            <div class="payment-selector">
+              <button id="payPendente" onclick="setCurrentPayment('pendente')">Não pago</button>
+              <button id="payPix" onclick="setCurrentPayment('pix')">Pix</button>
+              <button id="payDinheiro" onclick="setCurrentPayment('dinheiro')">Dinheiro</button>
+              <button id="payCredito" onclick="setCurrentPayment('credito')">Crédito</button>
             </div>
           </div>
         </div>
@@ -847,9 +972,13 @@
             <div class="stat-card"><span>Brownies vendidos</span><strong id="sumBrownies">0</strong></div>
             <div class="stat-card"><span>Bombons vendidos</span><strong id="sumBombons">0</strong></div>
             <div class="stat-card"><span>Total vendido</span><strong id="sumTotalQty">0</strong></div>
+            <div class="stat-card"><span>Quantidade cadastrada</span><strong id="sumProjectedQty">0</strong></div>
+            <div class="stat-card"><span>Retorno previsto</span><strong id="sumProjectedValue">R$ 0,00</strong></div>
             <div class="stat-card"><span>Comissão</span><strong id="sumCommission">R$ 0,00</strong></div>
             <div class="stat-card"><span>Pagos</span><strong id="sumPaidQty">0</strong></div>
             <div class="stat-card"><span>Não pagos</span><strong id="sumPendingQty">0</strong></div>
+            <div class="stat-card"><span>Pix</span><strong id="sumPixQty">0</strong></div>
+            <div class="stat-card"><span>Dinheiro / Crédito</span><strong id="sumOtherPayQty">0</strong></div>
           </div>
 
           <div class="summary-actions">
@@ -909,11 +1038,22 @@
               </div>
             </div>
 
+            <div class="projection-strip">
+              <div class="projection-card">
+                <span>Qtd. cadastrada</span>
+                <strong id="controlProjectedQty">0</strong>
+              </div>
+              <div class="projection-card">
+                <span>Retorno previsto</span>
+                <strong id="controlProjectedValue">R$ 0,00</strong>
+              </div>
+            </div>
+
             <button class="pill-btn dark" onclick="saveSettings()">Salvar configurações</button>
             <button class="pill-btn soft" style="background:#fff1f1;color:#bf3030;border:1px solid #ffd8d8" onclick="hardReset()">Zerar tudo</button>
 
             <div class="helper">
-              Comissão padrão configurada em R$ 2,00 por produto. O valor pode ser alterado aqui se um dia vocês mudarem a regra.
+              Comissão padrão configurada em R$ 2,00 por produto. O retorno previsto é calculado pela quantidade cadastrada no estoque vezes o valor de venda de cada produto.
             </div>
           </div>
         </div>
@@ -946,6 +1086,7 @@
       sellerName: 'Ester',
       currentProduct: 'brownie',
       currentFlavorId: 'ninho',
+      currentPayment: 'pendente',
       settings: {
         priceBrownie: 10,
         priceBombom: 10,
@@ -958,13 +1099,13 @@
     };
 
     const firebaseConfig = {
-      apiKey: "AIzaSyDSHLzsk0MO7N2dlVC3ikjnUDP5MBEqVG4",
-      authDomain: "doce-desejo-4ed02.firebaseapp.com",
-      databaseURL: "https://doce-desejo-4ed02-default-rtdb.firebaseio.com",
-      projectId: "doce-desejo-4ed02",
-      storageBucket: "doce-desejo-4ed02.firebasestorage.app",
-      messagingSenderId: "1000561475598",
-      appId: "1:1000561475598:web:fb45c86494274fea35fc5f"
+      apiKey: "AIzaSyArdhqhZAhXT-MIj-Eg7Kv6pO8w4gRgtV8",
+      authDomain: "doce-desejo-ee35f.firebaseapp.com",
+      databaseURL: "https://doce-desejo-ee35f-default-rtdb.firebaseio.com",
+      projectId: "doce-desejo-ee35f",
+      storageBucket: "doce-desejo-ee35f.firebasestorage.app",
+      messagingSenderId: "792529770568",
+      appId: "1:792529770568:web:f94fd623eba48f1026607d"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -992,6 +1133,7 @@
         sellerName: saved.sellerName || 'Ester',
         currentProduct: saved.currentProduct || 'brownie',
         currentFlavorId: saved.currentFlavorId || 'ninho',
+        currentPayment: saved.currentPayment || 'pendente',
         settings: {
           priceBrownie: Number(saved?.settings?.priceBrownie ?? 10),
           priceBombom: Number(saved?.settings?.priceBombom ?? 10),
@@ -1000,7 +1142,11 @@
           stockBombom: Number(saved?.settings?.stockBombom ?? 0),
           flavors: mergedFlavors
         },
-        sales: Array.isArray(saved.sales) ? saved.sales : []
+        sales: Array.isArray(saved.sales) ? saved.sales.map(s => ({
+          ...s,
+          paymentMethod: s.paymentMethod || (s.paid ? 'pix' : 'pendente'),
+          paid: !!s.paid
+        })) : []
       };
     }
 
@@ -1116,6 +1262,30 @@
       };
     }
 
+    function paymentLabel(method){
+      const map = {
+        pendente: 'Não pago',
+        pix: 'Pix',
+        dinheiro: 'Dinheiro',
+        credito: 'Crédito'
+      };
+      return map[method || 'pendente'] || 'Não pago';
+    }
+
+    function setCurrentPayment(method){
+      state.currentPayment = method;
+      saveState();
+    }
+
+    function setSalePayment(id, method){
+      const sale = state.sales.find(s => s.id === id);
+      if(sale){
+        sale.paymentMethod = method;
+        sale.paid = method !== 'pendente';
+        saveState();
+      }
+    }
+
     function addSale(product){
       if(product === 'brownie'){
         const flavor = getCurrentFlavor();
@@ -1133,7 +1303,8 @@
           flavorId: flavor.id,
           flavorName: flavor.name,
           buyer: 'Cliente',
-          paid: false,
+          paid: state.currentPayment !== 'pendente',
+          paymentMethod: state.currentPayment,
           value,
           commissionValue,
           createdAt: new Date().toISOString()
@@ -1151,7 +1322,8 @@
           id: uid(),
           product: 'bombom',
           buyer: 'Cliente',
-          paid: false,
+          paid: state.currentPayment !== 'pendente',
+          paymentMethod: state.currentPayment,
           value,
           commissionValue,
           createdAt: new Date().toISOString()
@@ -1183,6 +1355,27 @@
       saveState();
     }
 
+    function projectionTotals(){
+      const totalBrownieQty = state.settings.flavors.reduce((acc, f) => acc + Number(f.stock || 0), 0);
+      const totalBombomQty = Number(state.settings.stockBombom || 0);
+      const projectedQty = totalBrownieQty + totalBombomQty;
+      const projectedValue =
+        (totalBrownieQty * Number(state.settings.priceBrownie || 0)) +
+        (totalBombomQty * Number(state.settings.priceBombom || 0));
+
+      const soldValue = state.sales.reduce((acc, s) => acc + Number(s.value || 0), 0);
+      const remainingProjectedValue = Math.max(0, projectedValue - soldValue);
+
+      return {
+        totalBrownieQty,
+        totalBombomQty,
+        projectedQty,
+        projectedValue,
+        soldValue,
+        remainingProjectedValue
+      };
+    }
+
     function totals(){
       const totalValue = state.sales.reduce((acc, s) => acc + Number(s.value || 0), 0);
       const commission = state.sales.reduce((acc, s) => acc + Number(s.commissionValue || 0), 0);
@@ -1191,6 +1384,9 @@
       const bombons = state.sales.filter(s => s.product === 'bombom').length;
       const paidQty = state.sales.filter(s => s.paid).length;
       const pendingQty = state.sales.filter(s => !s.paid).length;
+      const pixQty = state.sales.filter(s => s.paymentMethod === 'pix').length;
+      const dinheiroQty = state.sales.filter(s => s.paymentMethod === 'dinheiro').length;
+      const creditoQty = state.sales.filter(s => s.paymentMethod === 'credito').length;
       return {
         totalValue,
         commission,
@@ -1200,6 +1396,10 @@
         bombons,
         paidQty,
         pendingQty,
+        pixQty,
+        dinheiroQty,
+        creditoQty,
+        otherPayQty: dinheiroQty + creditoQty,
         count: state.sales.length
       };
     }
@@ -1220,12 +1420,20 @@
       document.getElementById('heroQtyDetail').textContent = `${t.brownies} brownie${t.brownies === 1 ? '' : 's'} • ${t.bombons} bombom${t.bombons === 1 ? '' : 's'}`;
       document.getElementById('heroCommission').textContent = money.format(t.commission);
 
+      const p = projectionTotals();
+      document.getElementById('heroProjectedQty').textContent = p.projectedQty;
+      document.getElementById('heroProjectedValue').textContent = money.format(p.projectedValue);
+
       document.getElementById('sumBrownies').textContent = t.brownies;
       document.getElementById('sumBombons').textContent = t.bombons;
       document.getElementById('sumTotalQty').textContent = t.count;
+      document.getElementById('sumProjectedQty').textContent = p.projectedQty;
+      document.getElementById('sumProjectedValue').textContent = money.format(p.projectedValue);
       document.getElementById('sumCommission').textContent = money.format(t.commission);
       document.getElementById('sumPaidQty').textContent = t.paidQty;
       document.getElementById('sumPendingQty').textContent = t.pendingQty;
+      document.getElementById('sumPixQty').textContent = t.pixQty;
+      document.getElementById('sumOtherPayQty').textContent = t.otherPayQty;
 
       renderFlavorGrid();
       renderCurrentSaleState();
@@ -1258,10 +1466,15 @@
 
       const meta = currentProductMeta();
       document.getElementById('saleTitle').textContent = `Venda rápida • ${meta.title}`;
-      document.getElementById('saleSub').textContent = meta.subtitle;
+      document.getElementById('saleSub').textContent = `${meta.subtitle} • Pagamento: ${paymentLabel(state.currentPayment)}`;
       document.getElementById('sellBtnText').textContent = `Vender ${state.currentProduct === 'brownie' ? 'Brownie' : 'Bombom'}`;
       document.getElementById('saleRemaining').textContent = `Restam ${meta.remaining}`;
       document.getElementById('currentCount').textContent = currentProductSoldCount();
+
+      document.getElementById('payPendente').classList.toggle('active', state.currentPayment === 'pendente');
+      document.getElementById('payPix').classList.toggle('active', state.currentPayment === 'pix');
+      document.getElementById('payDinheiro').classList.toggle('active', state.currentPayment === 'dinheiro');
+      document.getElementById('payCredito').classList.toggle('active', state.currentPayment === 'credito');
     }
 
     function renderActivity(){
@@ -1283,7 +1496,7 @@
             <div class="act-ico">${s.product === 'brownie' ? '🍫' : '🍮'}</div>
             <div>
               <strong>${title}</strong>
-              <span>${hh}:${mm} • ${s.paid ? 'Pago' : 'Não pago'}</span>
+              <span>${hh}:${mm} • ${paymentLabel(s.paymentMethod)}</span>
             </div>
             <b>+1</b>
           </div>
@@ -1313,12 +1526,19 @@
                 <div>
                   <strong>${title}</strong>
                   <span>${when} • Comissão ${money.format(Number(s.commissionValue || 0))}</span>
+                  <span class="payment-mini ${s.paid ? 'paid' : ''}">${paymentLabel(s.paymentMethod)}</span>
                 </div>
               </div>
               <div class="status-icons">
-                <button class="status-icon ok ${s.paid ? 'active' : ''}" onclick="setPaid('${s.id}', true)">✓</button>
-                <button class="status-icon no ${!s.paid ? 'active' : ''}" onclick="setPaid('${s.id}', false)">×</button>
+                <button class="status-icon ok ${s.paid ? 'active' : ''}" onclick="setSalePayment('${s.id}', s.paymentMethod && s.paymentMethod !== 'pendente' ? s.paymentMethod : 'pix')">✓</button>
+                <button class="status-icon no ${!s.paid ? 'active' : ''}" onclick="setSalePayment('${s.id}', 'pendente')">×</button>
               </div>
+            </div>
+
+            <div class="method-row">
+              <button class="method-btn ${s.paymentMethod === 'pix' ? 'active' : ''}" onclick="setSalePayment('${s.id}', 'pix')">Pix</button>
+              <button class="method-btn ${s.paymentMethod === 'dinheiro' ? 'active' : ''}" onclick="setSalePayment('${s.id}', 'dinheiro')">Dinheiro</button>
+              <button class="method-btn ${s.paymentMethod === 'credito' ? 'active' : ''}" onclick="setSalePayment('${s.id}', 'credito')">Crédito</button>
             </div>
 
             <div class="sale-fields">
@@ -1337,6 +1557,10 @@
       document.getElementById('commBrownieInput').value = state.settings.commBrownie;
       document.getElementById('commBombomInput').value = state.settings.commBombom;
       document.getElementById('stockBombomInput').value = state.settings.stockBombom;
+
+      const p = projectionTotals();
+      document.getElementById('controlProjectedQty').textContent = p.projectedQty;
+      document.getElementById('controlProjectedValue').textContent = money.format(p.projectedValue);
 
       const flavorList = document.getElementById('flavorControlList');
       flavorList.innerHTML = state.settings.flavors.map(flavor => `
@@ -1399,11 +1623,7 @@
     }
 
     function setPaid(id, status){
-      const sale = state.sales.find(s => s.id === id);
-      if(sale){
-        sale.paid = status;
-        saveState();
-      }
+      setSalePayment(id, status ? 'pix' : 'pendente');
     }
 
     function updateBuyer(id, value){
@@ -1490,6 +1710,7 @@
           <td>${s.product === 'brownie' ? 'Brownie • ' + escapeHtml(s.flavorName || 'Sabor') : 'Bombom de travessa'}</td>
           <td>${escapeHtml(s.buyer || 'Cliente')}</td>
           <td>${s.paid ? '<span class="tag-paid">Pago</span>' : '<span class="tag-open">Não pago</span>'}</td>
+          <td>${paymentLabel(s.paymentMethod)}</td>
           <td>${money.format(Number(s.commissionValue || 0))}</td>
         </tr>
       `).join('');
@@ -1507,8 +1728,8 @@
 
           <div class="report-metrics">
             <div class="report-metric"><span>Vendas</span><strong>${t.count}</strong></div>
-            <div class="report-metric"><span>Brownies</span><strong>${t.brownies}</strong></div>
-            <div class="report-metric"><span>Bombons</span><strong>${t.bombons}</strong></div>
+            <div class="report-metric"><span>Qtd. cadastrada</span><strong>${projectionTotals().projectedQty}</strong></div>
+            <div class="report-metric"><span>Retorno previsto</span><strong>${money.format(projectionTotals().projectedValue)}</strong></div>
             <div class="report-metric"><span>Comissão</span><strong>${money.format(t.commission)}</strong></div>
           </div>
 
@@ -1519,11 +1740,12 @@
                 <th>Produto</th>
                 <th>Cliente</th>
                 <th>Status</th>
+                <th>Pagamento</th>
                 <th>Comissão</th>
               </tr>
             </thead>
             <tbody>
-              ${rows || '<tr><td colspan="5">Nenhuma venda registrada.</td></tr>'}
+              ${rows || '<tr><td colspan="6">Nenhuma venda registrada.</td></tr>'}
             </tbody>
           </table>
         </div>
@@ -1563,10 +1785,11 @@
       ctx.fillText('Vendedora: ' + (state.sellerName || 'Ester'), 82, 186);
 
       const t = totals();
+      const p = projectionTotals();
       const metrics = [
         ['Vendas', String(t.count)],
-        ['Brownies', String(t.brownies)],
-        ['Bombons', String(t.bombons)],
+        ['Qtd. cadastrada', String(p.projectedQty)],
+        ['Retorno previsto', money.format(p.projectedValue)],
         ['Comissão', money.format(t.commission)]
       ];
 
@@ -1586,8 +1809,8 @@
       ctx.font = 'bold 18px Arial';
       ctx.fillText('PRODUTO', 82, y);
       ctx.fillText('CLIENTE', 520, y);
-      ctx.fillText('STATUS', 790, y);
-      ctx.fillText('COMISSÃO', 980, y);
+      ctx.fillText('PAGAMENTO', 760, y);
+      ctx.fillText('COMISSÃO', 990, y);
 
       ctx.strokeStyle = '#e9eaee';
       ctx.beginPath();
@@ -1609,9 +1832,9 @@
           ctx.fillText(product.slice(0,28), 82, y);
           ctx.fillText((s.buyer || 'Cliente').slice(0,18), 520, y);
           ctx.fillStyle = s.paid ? '#1a7f43' : '#c53f3f';
-          ctx.fillText(s.paid ? 'Pago' : 'Não pago', 790, y);
+          ctx.fillText(paymentLabel(s.paymentMethod), 760, y);
           ctx.fillStyle = '#13151a';
-          ctx.fillText(money.format(Number(s.commissionValue || 0)), 980, y);
+          ctx.fillText(money.format(Number(s.commissionValue || 0)), 990, y);
           y += rowH;
         });
       }
